@@ -1,4 +1,6 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1"]
 
 [sub_resource type="BoxMesh" id="BodyMesh"]
 size = Vector3(0.8, 1.2, 0.6)
@@ -28,7 +30,11 @@ size = Vector3(1.1, 0.3, 1.1)
 albedo_color = Color(0.75, 0.15, 0.2, 1)
 roughness = 1.0
 
+[sub_resource type="BoxShape3D" id="PlayerShape"]
+size = Vector3(0.8, 1.2, 0.6)
+
 [node name="Player" type="CharacterBody3D"]
+script = ExtResource("1")
 
 [node name="Body" type="MeshInstance3D" parent="."]
 mesh = SubResource("BodyMesh")
@@ -56,5 +62,5 @@ material_override = SubResource("HatMat")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BodyMesh")
+shape = SubResource("PlayerShape")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
