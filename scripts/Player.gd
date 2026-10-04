@@ -15,7 +15,6 @@ func _physics_process(delta: float) -> void:
     var iv := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
     var move_vec := Vector3.ZERO
 
-    # prefer the active camera if available
     if not _camera:
         _camera = get_viewport().get_camera_3d()
 
@@ -26,13 +25,11 @@ func _physics_process(delta: float) -> void:
         move_vec.y = 0
         if move_vec.length() > 0.01:
             move_vec = move_vec.normalized() * speed
-            # rotate player to face movement direction smoothly
             var target_rot := atan2(move_vec.x, move_vec.z)
             rotation.y = lerp_angle(rotation.y, target_rot, clamp(rotation_speed * delta, 0.0, 1.0))
         else:
             move_vec = Vector3.ZERO
     else:
-        # fallback to camera-less movement (world axes)
         var dir := Vector3(iv.x, 0.0, -iv.y)
         if dir.length() > 0.01:
             dir = dir.normalized() * speed
