@@ -1,0 +1,14 @@
+config_version=5
+
+[application]
+
+config/name="LowSpec3DPrototype"
+run/main_scene="res://scenes/Main.tscn"
+config/features=PackedStringArray("4.7")
+
+[rendering]
+
+renderer/rendering_method="forward_plus"
+anti_aliasing/quality/msaa_3d=0
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=0
+environment/defaults/default_clear_color=Color(0.08, 0.1, 0.16, 1)
