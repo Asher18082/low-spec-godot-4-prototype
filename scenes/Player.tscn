@@ -1,0 +1,60 @@
+[gd_scene load_steps=13 format=3]
+
+[sub_resource type="BoxMesh" id="BodyMesh"]
+size = Vector3(0.8, 1.2, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="BodyMat"]
+albedo_color = Color(0.14, 0.75, 0.3, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="HeadMesh"]
+size = Vector3(0.9, 0.9, 0.9)
+
+[sub_resource type="StandardMaterial3D" id="HeadMat"]
+albedo_color = Color(0.9, 0.86, 0.72, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="EyeMesh"]
+size = Vector3(0.12, 0.12, 0.12)
+
+[sub_resource type="StandardMaterial3D" id="EyeMat"]
+albedo_color = Color(0, 0, 0, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="HatMesh"]
+size = Vector3(1.1, 0.3, 1.1)
+
+[sub_resource type="StandardMaterial3D" id="HatMat"]
+albedo_color = Color(0.75, 0.15, 0.2, 1)
+roughness = 1.0
+
+[node name="Player" type="CharacterBody3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("BodyMesh")
+material_override = SubResource("BodyMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Head" type="MeshInstance3D" parent="."]
+mesh = SubResource("HeadMesh")
+material_override = SubResource("HeadMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+
+[node name="EyeLeft" type="MeshInstance3D" parent="."]
+mesh = SubResource("EyeMesh")
+material_override = SubResource("EyeMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1.15, 0.43)
+
+[node name="EyeRight" type="MeshInstance3D" parent="."]
+mesh = SubResource("EyeMesh")
+material_override = SubResource("EyeMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.15, 0.43)
+
+[node name="Hat" type="MeshInstance3D" parent="."]
+mesh = SubResource("HatMesh")
+material_override = SubResource("HatMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BodyMesh")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)

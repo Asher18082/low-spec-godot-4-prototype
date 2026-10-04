@@ -1,33 +1,53 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=22 format=3]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="2"]
 [ext_resource type="Script" path="res://scripts/Collectable.gd" id="3"]
-[ext_resource type="Script" path="res://scripts/Door.gd" id="4"]
-[ext_resource type="PackedScene" path="res://scenes/HUD.tscn" id="5"]
+[ext_resource type="Script" path="" id="4"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_1"]
-size = Vector3(20, 1, 20)
+[sub_resource type="BoxMesh" id="GroundMesh"]
+size = Vector3(30, 1, 30)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
-size = Vector3(20, 1, 20)
+[sub_resource type="BoxShape3D" id="GroundShape"]
+size = Vector3(30, 1, 30)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_1"]
+[sub_resource type="BoxMesh" id="PlatformMesh"]
+size = Vector3(4, 0.6, 4)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2"]
+[sub_resource type="BoxShape3D" id="PlatformShape"]
+size = Vector3(4, 0.6, 4)
 
-[sub_resource type="SphereMesh" id="SphereMesh_1"]
-radius = 0.5
-height = 1.0
+[sub_resource type="BoxMesh" id="PillarMesh"]
+size = Vector3(0.8, 4.5, 0.8)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_1"]
-radius = 0.5
+[sub_resource type="BoxShape3D" id="PillarShape"]
+size = Vector3(0.8, 4.5, 0.8)
 
-[sub_resource type="BoxMesh" id="BoxMesh_3"]
-size = Vector3(2, 4, 0.5)
+[sub_resource type="BoxMesh" id="DoorMesh"]
+size = Vector3(2.5, 4, 0.4)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_4"]
-size = Vector3(2, 4, 0.5)
+[sub_resource type="BoxShape3D" id="DoorShape"]
+size = Vector3(2.5, 4, 0.4)
+
+[sub_resource type="BoxMesh" id="GemMesh"]
+size = Vector3(0.7, 0.7, 0.7)
+
+[sub_resource type="SphereShape3D" id="GemShape"]
+radius = 0.45
+
+[sub_resource type="BoxMesh" id="PixelBlockMesh"]
+size = Vector3(0.8, 0.8, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="PixelBlockMat"]
+albedo_color = Color(0.2, 0.8, 0.4, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="PixelCabinMesh"]
+size = Vector3(1.3, 1.3, 1.3)
+
+[sub_resource type="StandardMaterial3D" id="PixelCabinMat"]
+albedo_color = Color(0.55, 0.35, 0.2, 1)
+roughness = 1.0
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1")
@@ -35,58 +55,80 @@ script = ExtResource("1")
 [node name="Ground" type="StaticBody3D" parent="."]
 
 [node name="GroundMesh" type="MeshInstance3D" parent="Ground"]
-mesh = SubResource("BoxMesh_1")
+mesh = SubResource("GroundMesh")
 
 [node name="GroundCollision" type="CollisionShape3D" parent="Ground"]
-shape = SubResource("BoxShape3D_1")
+shape = SubResource("GroundShape")
+
+[node name="Platform" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -6)
+
+[node name="PlatformMesh" type="MeshInstance3D" parent="Platform"]
+mesh = SubResource("PlatformMesh")
+
+[node name="PlatformCollision" type="CollisionShape3D" parent="Platform"]
+shape = SubResource("PlatformShape")
+
+[node name="PillarLeft" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.2, 0)
+
+[node name="PillarMesh" type="MeshInstance3D" parent="PillarLeft"]
+mesh = SubResource("PillarMesh")
+
+[node name="PillarCollision" type="CollisionShape3D" parent="PillarLeft"]
+shape = SubResource("PillarShape")
+
+[node name="PillarRight" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.2, 0)
+
+[node name="PillarMesh" type="MeshInstance3D" parent="PillarRight"]
+mesh = SubResource("PillarMesh")
+
+[node name="PillarCollision" type="CollisionShape3D" parent="PillarRight"]
+shape = SubResource("PillarShape")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, 0, 10, 0)
 light_energy = 1.2
+shadow_enabled = false
 
-[node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+[node name="Player" parent="." instance=ExtResource("res://scenes/Player.tscn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 script = ExtResource("2")
-
-[node name="PlayerMesh" type="MeshInstance3D" parent="Player"]
-mesh = SubResource("CapsuleMesh_1")
-
-[node name="PlayerCollision" type="CollisionShape3D" parent="Player"]
-shape = SubResource("CapsuleShape3D_2")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 10)
 current = true
 
 [node name="Collectable1" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.6, 0)
 script = ExtResource("3")
 
-[node name="CollectableMesh" type="MeshInstance3D" parent="Collectable1"]
-mesh = SubResource("SphereMesh_1")
+[node name="GemMesh" type="MeshInstance3D" parent="Collectable1"]
+mesh = SubResource("GemMesh")
 
-[node name="CollectableCollision" type="CollisionShape3D" parent="Collectable1"]
-shape = SubResource("SphereShape3D_1")
+[node name="GemCollision" type="CollisionShape3D" parent="Collectable1"]
+shape = SubResource("GemShape")
 
 [node name="Collectable2" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, -5)
 script = ExtResource("3")
 
-[node name="CollectableMesh" type="MeshInstance3D" parent="Collectable2"]
-mesh = SubResource("SphereMesh_1")
+[node name="GemMesh" type="MeshInstance3D" parent="Collectable2"]
+mesh = SubResource("GemMesh")
 
-[node name="CollectableCollision" type="CollisionShape3D" parent="Collectable2"]
-shape = SubResource("SphereShape3D_1")
+[node name="GemCollision" type="CollisionShape3D" parent="Collectable2"]
+shape = SubResource("GemShape")
 
 [node name="Collectable3" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.6, 0)
 script = ExtResource("3")
 
-[node name="CollectableMesh" type="MeshInstance3D" parent="Collectable3"]
-mesh = SubResource("SphereMesh_1")
+[node name="GemMesh" type="MeshInstance3D" parent="Collectable3"]
+mesh = SubResource("GemMesh")
 
-[node name="CollectableCollision" type="CollisionShape3D" parent="Collectable3"]
-shape = SubResource("SphereShape3D_1")
+[node name="GemCollision" type="CollisionShape3D" parent="Collectable3"]
+shape = SubResource("GemShape")
 
 [node name="Door" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 2.2, 0)
@@ -95,7 +137,17 @@ script = ExtResource("4")
 [node name="DoorBody" type="StaticBody3D" parent="Door"]
 
 [node name="DoorMesh" type="MeshInstance3D" parent="Door/DoorBody"]
-mesh = SubResource("BoxMesh_3")
+mesh = SubResource("DoorMesh")
 
 [node name="DoorCollision" type="CollisionShape3D" parent="Door/DoorBody"]
-shape = SubResource("BoxShape3D_4")
+shape = SubResource("DoorShape")
+
+[node name="PixelTree" type="MeshInstance3D" parent="."]
+mesh = SubResource("PixelBlockMesh")
+material_override = SubResource("PixelBlockMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.1, -2)
+
+[node name="PixelCabin" type="MeshInstance3D" parent="."]
+mesh = SubResource("PixelCabinMesh")
+material_override = SubResource("PixelCabinMat")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.7, -2)
